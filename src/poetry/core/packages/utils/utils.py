@@ -83,7 +83,9 @@ def url_to_path(url: str) -> Path:
             f"non-local file URIs are not supported on this platform: {url}"
         )
 
-    return Path(url2pathname(netloc + unquote(path)))
+    path = unquote(path)
+    path = re.sub(r'^/+', '/', path)
+    return Path(url2pathname(netloc + path))
 
 
 def is_url(name: str) -> bool:
